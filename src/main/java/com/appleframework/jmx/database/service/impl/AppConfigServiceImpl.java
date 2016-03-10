@@ -20,7 +20,13 @@ public class AppConfigServiceImpl implements AppConfigService {
 
 	@Resource
 	private AppConfigEntityMapper appConfigEntityMapper;
-	
+
+	@Override
+	public void updateIsAlert(Integer id, boolean isAlert) {
+		AppConfigEntity entity = this.get(id);
+		entity.setIsAlert(isAlert);
+		this.update(entity);
+	}
 
 	public AppConfigEntity get(Integer id) {
 		return appConfigEntityMapper.selectByPrimaryKey(id);
@@ -35,6 +41,7 @@ public class AppConfigServiceImpl implements AppConfigService {
 		Date now = new Date();
 		appConfig.setCreateTime(now);
 		appConfig.setUpdateTime(now);
+		appConfig.setIsAlert(false);
 		appConfigEntityMapper.insert(appConfig);
 	}
 	
@@ -70,7 +77,32 @@ public class AppConfigServiceImpl implements AppConfigService {
 	public List<AppConfigEntity> findListByClusterIdAndStart(Integer clusterId) {
 		AppConfigEntityExample example = new AppConfigEntityExample();
 		example.createCriteria().andClusterIdEqualTo(clusterId).andStateEqualTo(StateType.START.getIndex());
+		example.setOrderByClause("id");
+		example.setDistinct(true);
 		return appConfigEntityMapper.selectByExample(example);
+	}
+	
+	public List<AppConfigEntity> findListByIsAlert() {
+		AppConfigEntityExample example = new AppConfigEntityExample();
+		example.createCriteria().andIsAlertEqualTo(true).andStateEqualTo(StateType.START.getIndex());
+		example.setDistinct(true);
+		return appConfigEntityMapper.selectByExample(example);
+	}
+	
+	
+	public boolean isExistByAlertGroupId(Integer alertGroupId) {
+		if(countByAlertGroupId(alertGroupId) > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public int countByAlertGroupId(Integer alertGroupId) {
+		AppConfigEntityExample example = new AppConfigEntityExample();
+		example.createCriteria().andAlertGroupIdEqualTo(alertGroupId);
+		return appConfigEntityMapper.countByExample(example);
 	}
 
 }

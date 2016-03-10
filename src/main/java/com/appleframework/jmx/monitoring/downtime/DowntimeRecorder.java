@@ -15,7 +15,6 @@
  */
 package com.appleframework.jmx.monitoring.downtime;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -26,7 +25,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.appleframework.jmx.core.config.ApplicationConfig;
@@ -79,9 +77,7 @@ public class DowntimeRecorder implements EventListener {
             if(!downtimesMap.containsKey(appConfig)){
             	try {
             		addApplicationToDB(appConfig.getApplicationId(), recordingSince);
-				} catch (DuplicateKeyException e) {
-					logger.error("ID已经存在: " + appConfig.getApplicationId());
-				}catch (Exception e) {
+				} catch (Exception e) {
 					logger.error(e);
 				}
                 downtimesMap.put(appConfig, new ApplicationDowntimeHistory(recordingSince));    
@@ -124,7 +120,7 @@ public class DowntimeRecorder implements EventListener {
         try {
             addApplicationToDB(appConfig.getApplicationId(), recordingSince);
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.error(e);
 		}
         downtimesMap.put(appConfig, new ApplicationDowntimeHistory(recordingSince));
     }
@@ -159,17 +155,19 @@ public class DowntimeRecorder implements EventListener {
         
         ApplicationEvent appEvent = (ApplicationEvent)event;
         ApplicationDowntimeHistory downtimeHistory = getDowntimeHistory(appEvent.getApplicationConfig());
-        assert downtimeHistory != null;
+        //assert downtimeHistory != null;
+        
+        //处理UP和DOWN事件
         if(appEvent instanceof ApplicationUpEvent){
             // application must have went down earlier
-            assert downtimeHistory.getDowntimeBegin() != null;
-            // log the downtime to the db
-            recordDowntime(appEvent.getApplicationConfig().getApplicationId(), 
-                    downtimeHistory.getDowntimeBegin(), appEvent.getTime());
+            //assert downtimeHistory.getDowntimeBegin() != null;
             downtimeHistory.applicationCameUp(appEvent.getTime());
-        }else if(event instanceof ApplicationDownEvent){
+        } else if(event instanceof ApplicationDownEvent){
             downtimeHistory.applicationWentDown(appEvent.getTime());
+            // log the downtime to the db
+            recordDowntime(appEvent.getApplicationConfig().getApplicationId(), downtimeHistory.getDowntimeBegin(), appEvent.getTime());
         }
+        updateDowntimeMap(appEvent.getApplicationConfig(), downtimeHistory);
     }
 
     public double getUnavailablePercentage(ApplicationConfig appConfig) {
@@ -178,20 +176,13 @@ public class DowntimeRecorder implements EventListener {
     }
     
     private void addApplicationToDB(String applicationId, long recordingSince){
-    	AppDowntimeEntity appDowntime = new AppDowntimeEntity();
-    	appDowntime.setId(Integer.parseInt(applicationId));
-    	appDowntime.setRecordingStart(new Timestamp(recordingSince));
-    	appDowntime.setRecordingEnd(new Timestamp(recordingSince + 630720000000L));
-    	appDowntime.setCreateTime(new Date());
-    	appDowntimeService.insert(appDowntime);
+    	Integer id = Integer.parseInt(applicationId);
+    	appDowntimeService.saveOrUpdate(id, recordingSince);
     }
-    
+
     private void recordDowntime(String applicationId, long downtimeBegin, long downtimeEnd){
-    	AppDowntimeHistoryEntity history = new AppDowntimeHistoryEntity();
-    	history.setId(Integer.parseInt(applicationId));
-    	history.setStartTime(new Timestamp(downtimeBegin));
-    	history.setEndTime(new Timestamp(downtimeEnd));
-    	appDowntimeHistoryService.insert(history);
+    	Integer id = Integer.parseInt(applicationId);
+    	appDowntimeHistoryService.saveOrUpdate(id, downtimeBegin, downtimeEnd);
     }
 
     private void initDowntimeMapFromDB(){
@@ -213,7 +204,15 @@ public class DowntimeRecorder implements EventListener {
 			}
            
         } catch (Exception e) {
-			// TODO: handle exception
+        	logger.error(e);
+		}
+    }
+    
+    private void updateDowntimeMap(ApplicationConfig appConfig, ApplicationDowntimeHistory history){
+        try{
+        	downtimesMap.put(appConfig, history);
+        } catch (Exception e) {
+        	logger.error(e);
 		}
     }
 

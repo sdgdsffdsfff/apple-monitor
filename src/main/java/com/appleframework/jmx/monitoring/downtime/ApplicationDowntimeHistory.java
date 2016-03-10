@@ -32,6 +32,8 @@ public class ApplicationDowntimeHistory {
 	// if not null - indicates that the application is down and stores the time
 	// since the application is down.
 	private Long downtimeBegin;
+	
+	private boolean isDown = false;
 
 	ApplicationDowntimeHistory(long recordingSince) {
 		this.recordingSince = recordingSince;
@@ -48,12 +50,18 @@ public class ApplicationDowntimeHistory {
 			// this could happen if the application is edited while it is down.
 			logger.info("Downtime event fired again. Ignoring.");
 		}
+		this.isDown = true;
 	}
 
 	public void applicationCameUp(long time) {
-		assert downtimeBegin != null;
-		totalDowntime += (time - downtimeBegin);
+		if (downtimeBegin == null) {
+			totalDowntime = 0L;
+		}
+		else {
+			totalDowntime += (time - downtimeBegin);
+		}
 		downtimeBegin = null;
+		this.isDown = false;
 	}
 
 	public Long getDowntimeBegin() {
@@ -75,6 +83,21 @@ public class ApplicationDowntimeHistory {
 	}
 
 	public boolean isApplicationUp() {
-		return downtimeBegin == null;
+		return !this.isDown;
 	}
+
+	public boolean isDown() {
+		return isDown;
+	}
+
+	public void setDown(boolean isDown) {
+		this.isDown = isDown;
+	}
+
+	@Override
+	public String toString() {
+		return "ApplicationDowntimeHistory [recordingSince=" + recordingSince + ", totalDowntime=" + totalDowntime
+				+ ", downtimeBegin=" + downtimeBegin + ", isDown=" + isDown + "]";
+	}
+	
 }

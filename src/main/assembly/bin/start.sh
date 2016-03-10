@@ -15,7 +15,7 @@ SERVER_NAME=`sed '/application.name/!d;s/.*=//' conf/system.properties | tr -d '
 SERVER_PROTOCOL=`sed '/protocol.name/!d;s/.*=//' conf/system.properties | tr -d '\r'`
 SERVER_PORT=`sed '/web.port/!d;s/.*=//' conf/system.properties | tr -d '\r'`
 LOGS_FILE=`sed '/log4j.appender.logToFile.File/!d;s/.*=//' conf/log4j.properties | tr -d '\r'`
-JMX_PORT=`sed '/jmx.registry.port/!d;s/.*=//' conf/system.properties | tr -d '\r'`
+JMX_PORT=`sed '/jmx.port/!d;s/.*=//' conf/system.properties | tr -d '\r'`
 
 if [ -z "$SERVER_NAME" ]; then
     SERVER_NAME=`hostname`
@@ -43,7 +43,7 @@ else
     LOGS_DIR=$DEPLOY_DIR/logs
 fi
 if [ ! -d $LOGS_DIR ]; then
-    mkdir $LOGS_DIR
+    mkdir -p $LOGS_DIR
 fi
 STDOUT_FILE=$LOGS_DIR/stdout.log
 

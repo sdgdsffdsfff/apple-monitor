@@ -226,76 +226,6 @@ public class AppConfigEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andAppConfigIsNull() {
-            addCriterion("app_config is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigIsNotNull() {
-            addCriterion("app_config is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigEqualTo(String value) {
-            addCriterion("app_config =", value, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigNotEqualTo(String value) {
-            addCriterion("app_config <>", value, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigGreaterThan(String value) {
-            addCriterion("app_config >", value, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigGreaterThanOrEqualTo(String value) {
-            addCriterion("app_config >=", value, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigLessThan(String value) {
-            addCriterion("app_config <", value, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigLessThanOrEqualTo(String value) {
-            addCriterion("app_config <=", value, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigLike(String value) {
-            addCriterion("app_config like", value, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigNotLike(String value) {
-            addCriterion("app_config not like", value, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigIn(List<String> values) {
-            addCriterion("app_config in", values, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigNotIn(List<String> values) {
-            addCriterion("app_config not in", values, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigBetween(String value1, String value2) {
-            addCriterion("app_config between", value1, value2, "appConfig");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppConfigNotBetween(String value1, String value2) {
-            addCriterion("app_config not between", value1, value2, "appConfig");
-            return (Criteria) this;
-        }
-
         public Criteria andStateIsNull() {
             addCriterion("state is null");
             return (Criteria) this;
@@ -353,6 +283,126 @@ public class AppConfigEntityExample {
 
         public Criteria andStateNotBetween(Short value1, Short value2) {
             addCriterion("state not between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertIsNull() {
+            addCriterion("is_alert is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertIsNotNull() {
+            addCriterion("is_alert is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertEqualTo(Boolean value) {
+            addCriterion("is_alert =", value, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertNotEqualTo(Boolean value) {
+            addCriterion("is_alert <>", value, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertGreaterThan(Boolean value) {
+            addCriterion("is_alert >", value, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_alert >=", value, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertLessThan(Boolean value) {
+            addCriterion("is_alert <", value, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_alert <=", value, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertIn(List<Boolean> values) {
+            addCriterion("is_alert in", values, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertNotIn(List<Boolean> values) {
+            addCriterion("is_alert not in", values, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_alert between", value1, value2, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAlertNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_alert not between", value1, value2, "isAlert");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdIsNull() {
+            addCriterion("alert_group_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdIsNotNull() {
+            addCriterion("alert_group_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdEqualTo(Integer value) {
+            addCriterion("alert_group_id =", value, "alertGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdNotEqualTo(Integer value) {
+            addCriterion("alert_group_id <>", value, "alertGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdGreaterThan(Integer value) {
+            addCriterion("alert_group_id >", value, "alertGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("alert_group_id >=", value, "alertGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdLessThan(Integer value) {
+            addCriterion("alert_group_id <", value, "alertGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdLessThanOrEqualTo(Integer value) {
+            addCriterion("alert_group_id <=", value, "alertGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdIn(List<Integer> values) {
+            addCriterion("alert_group_id in", values, "alertGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdNotIn(List<Integer> values) {
+            addCriterion("alert_group_id not in", values, "alertGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdBetween(Integer value1, Integer value2) {
+            addCriterion("alert_group_id between", value1, value2, "alertGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertGroupIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("alert_group_id not between", value1, value2, "alertGroupId");
             return (Criteria) this;
         }
 
